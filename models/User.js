@@ -11,6 +11,7 @@ const schema = new Schema({
   pictures: [{ type: Types.ObjectId, ref: "Picture" }],
   token: { type: String },
   confirmed: { type: Boolean, default: false },
+  created: { type: Date, required: true },
 });
 
 schema.pre("save", function (next) {

@@ -60,6 +60,7 @@ router.post("/signup", async (req, res) => {
       email,
       password,
       name,
+      created: new Date(),
     });
 
     const token = jwt.sign({ id: user._id }, process.env.secret);
@@ -124,6 +125,20 @@ router.post("/confirm", async (req, res) => {
       sameSite: process.env.node === "production" ? "none" : "lax",
     });
     return res.status(200).json(new_token);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+router.get("/logout", async (req, res) => {
+  try {
+    res.cookie("access token", "", {
+      secure: process.env.node === "production",
+      httpOnly: true,
+      sameSite: process.env.node === "production" ? "none" : "lax",
+    });
+    return res.status(200).json();
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal server error" });
