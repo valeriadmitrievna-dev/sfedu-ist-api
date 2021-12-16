@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Imagify</title>
+    <style>
+      @import url(http://fonts.googleapis.com/css?family=Helvetica);
+      @import url(http://fonts.googleapis.com/css?family=Roboto);
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Helvetica", "Roboto", "Verdana", sans-serif;
+        color: #fff;
+      }
+      a {
+        text-decoration: none;
+      }
+      #body {
+        position: relative;
+        background: linear-gradient(
+          60deg,
+          rgb(84, 58, 183) 0%,
+          rgb(0, 172, 193) 100%
+        );
+        background-repeat: no-repeat;
+        padding: 100px 0;
+      }
+      .waves {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+      }
+      .glass {
+        padding: 30px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(20px);
+        width: 500px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 36px;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      p {
+        text-align: center;
+        line-height: 120%;
+        font-size: 16px;
+      }
+      a.confirm {
+        display: block;
+        width: fit-content;
+        margin: 0 auto;
+        margin-top: 30px;
+        text-transform: uppercase;
+        padding: 20px 30px;
+        line-height: 1;
+        border-radius: 8px;
+        border: 2px solid #fff;
+        color: #fff;
+        font-weight: bold;
+        letter-spacing: 0.08em;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="body">
+      <div class="glass">
+        <h1>Welcome!</h1>
+        <p>
+          We're excited to have you get started. First, you need to confirm your
+          email. Just press the button bellow.
+        </p>
+        <a href="confirm_link" class="confirm">confirm account</a>
+      </div>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 24 150 28"
+        preserveAspectRatio="none"
+        shape-rendering="auto"
+        class="waves"
+      >
+        <defs>
+          <path
+            id="gentle-wave"
+            d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
+          />
+        </defs>
+        <g className="parallax">
+          <use fill="rgba(255,255,255, 0.6)" href="#gentle-wave" x="48" y="0" />
+          <use fill="rgba(255,255,255, 0.7)" href="#gentle-wave" x="48" y="3" />
+          <use fill="rgba(255,255,255, 0.8)" href="#gentle-wave" x="48" y="5" />
+          <use fill="rgba(255,255,255, 0.1)" href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+  </body>
+</html>
