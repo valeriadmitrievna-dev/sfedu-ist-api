@@ -28,7 +28,7 @@ router.post("/signin", async (req, res) => {
       httpOnly: true,
       sameSite: process.env.node === "production" ? "none" : "lax",
     });
-    return res.status(200).json(token);
+    return res.status(200).json({ token });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal server error" });
