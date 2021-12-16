@@ -7,7 +7,11 @@ const schema = new Schema({
   password: { type: String, required: true, trim: true },
   username: { type: String, required: true, unic: true, trim: true },
   name: { type: String, required: true, trim: true },
-  avatar: { type: String, default: "" },
+  avatar: {
+    type: String,
+    default:
+      "https://icon-library.com/images/default-profile-icon/default-profile-icon-5.jpg",
+  },
   pictures: [{ type: Types.ObjectId, ref: "Picture" }],
   token: { type: String },
   confirmed: { type: Boolean, default: false },
