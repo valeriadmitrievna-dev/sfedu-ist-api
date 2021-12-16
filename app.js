@@ -10,10 +10,7 @@ const port = process.env.PORT || 8000;
 
 app.use(
   cors({
-    origin:
-      process.env.node === "development"
-        ? process.env.app_dev
-        : process.env.app_origin,
+    origin: process.env.app,
     credentials: true,
   })
 );
