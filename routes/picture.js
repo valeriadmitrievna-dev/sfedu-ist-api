@@ -61,4 +61,28 @@ router.post("/", withAuth, async (req, res) => {
   }
 });
 
+router.get("/length", async (req, res) => {
+  try {
+    const pictures = await Picture.find();
+    return res.status(200).json(pictures.length);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ error: error.message || "Internal server error" });
+  }
+});
+
+router.get("/:count/:page", async (req, res) => {
+  try {
+    const { count, page } = req.params;
+    const pictures = await Picture.find()
+      .populate("owner")
+      .limit(parseInt(count))
+      .skip(parseInt(count) * parseInt(page));
+    return res.status(200).json(pictures);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ error: error.message || "Internal server error" });
+  }
+});
+
 module.exports = router;
