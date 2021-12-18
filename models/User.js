@@ -12,7 +12,6 @@ const schema = new Schema({
     default:
       "https://icon-library.com/images/default-profile-icon/default-profile-icon-5.jpg",
   },
-  pictures: [{ type: Types.ObjectId, ref: "Picture" }],
   token: { type: String },
   confirmed: { type: Boolean, default: false },
   created: { type: Date, required: true },

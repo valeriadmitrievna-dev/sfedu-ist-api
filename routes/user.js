@@ -3,6 +3,7 @@ const router = Router();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
+const Picture = require("../models/Picture");
 const fs = require("fs");
 const withAuth = require("../middlewares/auth");
 
@@ -71,7 +72,7 @@ router.post("/signup", async (req, res) => {
       `${req.app.get("rootFolder")}/emails/confirm-email.html`,
       "utf8"
     );
-    const link = `${process.env.app}/user/${token}`;
+    const link = `${process.env.app}/user/confirm/${token}`;
 
     const mailOptions = {
       from: process.env.SMTP_EMAIL,
@@ -153,7 +154,11 @@ router.get("/", withAuth, async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-    res.status(200).json({ user });
+    const pictures = await Picture.find({ owner: user._id }).populate("owner");
+    res.status(200).json({
+      ...user._doc,
+      pictures,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal server error" });

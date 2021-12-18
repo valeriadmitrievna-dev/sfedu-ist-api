@@ -57,6 +57,7 @@ transporter.verify(function (error) {
 app.set("transporter", transporter);
 
 app.use("/user", require("./routes/user"));
+app.use("/picture", require("./routes/picture"));
 
 async function start() {
   try {
