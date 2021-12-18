@@ -78,7 +78,9 @@ router.get("/:count/:page", async (req, res) => {
       .populate("owner")
       .limit(parseInt(count))
       .skip(parseInt(count) * parseInt(page));
-    return res.status(200).json(pictures);
+    return res
+      .status(200)
+      .json(pictures.sort((a, b) => new Date(b.created) - new Date(a.created)));
   } catch (error) {
     console.log(error.message);
     res.status(500).json({ error: error.message || "Internal server error" });

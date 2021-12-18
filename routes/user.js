@@ -157,7 +157,7 @@ router.get("/", withAuth, async (req, res) => {
     const pictures = await Picture.find({ owner: user._id }).populate("owner");
     res.status(200).json({
       ...user._doc,
-      pictures,
+      pictures: pictures.sort((a, b) => new Date(b.created) - new Date(a.created)),
     });
   } catch (error) {
     console.log(error);
@@ -210,6 +210,24 @@ router.put("/", withAuth, async (req, res) => {
   } catch (error) {
     console.log(error.message);
     res.status(500).json({ error: error.message || "Internal server error" });
+  }
+});
+
+router.get("/:username", withAuth, async (req, res) => {
+  try {
+    const { username } = req.params;
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    const pictures = await Picture.find({ owner: user._id }).populate("owner");
+    res.status(200).json({
+      ...user._doc,
+      pictures: pictures.sort((a, b) => new Date(b.created) - new Date(a.created)),
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
