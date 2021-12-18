@@ -15,12 +15,22 @@ app.use(
   })
 );
 app.use(express.json({ limit: "50mb" }));
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use(fileupload());
 
 const { dirname } = require("path");
 const appDir = dirname(require.main.filename);
 app.set("rootFolder", appDir);
+
+const AWS = require("aws-sdk");
+const credentials = new AWS.Credentials({
+  accessKeyId: process.env.AWS_ACCESS_KEY,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION,
+});
+AWS.config.credentials = credentials;
+const s3 = new AWS.S3();
+app.set("s3", s3);
 
 const nodemailer = require("nodemailer");
 const transporter = nodemailer.createTransport({

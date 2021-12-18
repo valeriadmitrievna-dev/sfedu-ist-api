@@ -160,4 +160,52 @@ router.get("/", withAuth, async (req, res) => {
   }
 });
 
+router.put("/", withAuth, async (req, res) => {
+  try {
+    const { id } = req.decoded;
+    const user = await User.findOne({ _id: id });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    const { name, username, website, about } = req.body;
+    const uploadAvatar = async () => {
+      if (!!req.files?.avatar) {
+        const fileContent = Buffer.from(req.files.avatar.data, "binary");
+        const params = {
+          Bucket: process.env.S3_BUCKET,
+          Key: req.files.avatar.name,
+          Body: fileContent,
+        };
+        const stored = await req.app
+          .get("s3")
+          .upload(params, (err, data) => {
+            if (err) {
+              console.log(err);
+              throw new Error("Problems with uploading avatar");
+            }
+            return data;
+          })
+          .promise();
+        const url = await stored.Location;
+        return url;
+      }
+    };
+    const avatar = await uploadAvatar();
+    user.name = name?.length ? name : user.name;
+    user.username = username?.length ? username : user.username;
+    user.website = website?.length ? website : user.website;
+    user.about = about?.length ? about : user.about;
+    user.avatar = avatar ? avatar : user.avatar;
+    user.save(err => {
+      if (err) {
+        return res.status(500).json({ error: "Error on updating" });
+      }
+    });
+    return res.status(200).json({ user });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ error: error.message || "Internal server error" });
+  }
+});
+
 module.exports = router;

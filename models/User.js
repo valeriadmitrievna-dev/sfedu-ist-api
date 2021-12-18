@@ -16,6 +16,8 @@ const schema = new Schema({
   token: { type: String },
   confirmed: { type: Boolean, default: false },
   created: { type: Date, required: true },
+  website: { type: String },
+  about: { type: String },
 });
 
 schema.pre("save", function (next) {
