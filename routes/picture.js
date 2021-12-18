@@ -76,6 +76,7 @@ router.get("/:count/:page", async (req, res) => {
     const { count, page } = req.params;
     const pictures = await Picture.find()
       .populate("owner")
+      .sort({ created: -1 })
       .limit(parseInt(count))
       .skip(parseInt(count) * parseInt(page));
     return res
