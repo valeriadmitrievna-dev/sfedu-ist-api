@@ -13,7 +13,7 @@ router.post("/", withAuth, async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
     const { title, description } = req.body;
-    if (!title.length) {
+    if (!title?.length) {
       return res.status(404).json({ error: "Picture title is required" });
     }
     const uploadPicture = async () => {
@@ -82,6 +82,30 @@ router.get("/:count/:page", async (req, res) => {
     return res
       .status(200)
       .json(pictures.sort((a, b) => new Date(b.created) - new Date(a.created)));
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ error: error.message || "Internal server error" });
+  }
+});
+
+router.delete("/:picID", withAuth, async (req, res) => {
+  try {
+    const { picID } = req.params;
+    const { id } = req.decoded;
+    const user = await User.findOne({ _id: id });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    const callback = err => {
+      if (err) {
+        console.log(err.message);
+        return res.status(500).json({ error: "Error on deleting picture" });
+      }
+    };
+    await Picture.deleteOne({ _id: picID }).exec(callback);
+    user.pictures = user.pictures?.filter(p => p !== picID);
+    user.save(callback);
+    return res.status(200).json();
   } catch (error) {
     console.log(error.message);
     res.status(500).json({ error: error.message || "Internal server error" });
