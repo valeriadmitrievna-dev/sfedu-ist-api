@@ -12,6 +12,7 @@ app.use(
   cors({
     origin: process.env.app,
     credentials: true,
+    crossorigin: true,
   })
 );
 app.use(express.json({ limit: "50mb" }));
@@ -22,10 +23,6 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", process.env.app);
   res.setHeader("Origin", process.env.app);
   res.setHeader("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Content-Type,Content-Length, Authorization"
-  );
   next();
 });
 
