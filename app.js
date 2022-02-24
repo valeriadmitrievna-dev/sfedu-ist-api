@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
-const mongoose = require("mongoose");
 const cors = require("cors");
+const mongoose = require("mongoose");
 const fileupload = require("express-fileupload");
 
 const app = express();
@@ -17,6 +17,13 @@ app.use(
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use(fileupload());
+
+app.use(function (req, res, next) {
+  res.setHeader("Access-Control-Allow-Origin", process.env.app);
+  res.setHeader("Origin", process.env.app);
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  next();
+});
 
 const { dirname } = require("path");
 const appDir = dirname(require.main.filename);
