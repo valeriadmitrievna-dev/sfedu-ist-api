@@ -63,6 +63,12 @@ transporter.verify(function (error) {
 });
 app.set("transporter", transporter);
 
+app.get("/", (req, res) => {
+  return res.status(200).json({
+    message: "Hello at Imagify",
+  });
+});
+
 app.use("/user", require("./routes/user"));
 app.use("/picture", require("./routes/picture"));
 
