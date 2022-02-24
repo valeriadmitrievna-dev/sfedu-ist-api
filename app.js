@@ -11,20 +11,11 @@ const port = process.env.PORT || 8000;
 app.use(
   cors({
     origin: process.env.app,
-    credentials: true,
-    crossorigin: true,
   })
 );
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use(fileupload());
-
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", process.env.app);
-  res.setHeader("Origin", process.env.app);
-  res.setHeader("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
-  next();
-});
 
 const { dirname } = require("path");
 const appDir = dirname(require.main.filename);

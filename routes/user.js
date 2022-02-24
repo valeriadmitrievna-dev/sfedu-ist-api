@@ -25,11 +25,6 @@ router.post("/signin", async (req, res) => {
     const token = jwt.sign({ id: user._id }, process.env.secret, {
       expiresIn: "24h",
     });
-    res.cookie("access token", token, {
-      secure: process.env.node === "production",
-      httpOnly: true,
-      sameSite: process.env.node === "production" ? "none" : "lax",
-    });
     return res.status(200).json({ token });
   } catch (error) {
     console.log(error);
@@ -121,11 +116,6 @@ router.post("/confirm", async (req, res) => {
     const new_token = jwt.sign({ id: user._id }, process.env.secret, {
       expiresIn: "24h",
     });
-    res.cookie("access token", new_token, {
-      secure: process.env.node === "production",
-      httpOnly: true,
-      sameSite: process.env.node === "production" ? "none" : "lax",
-    });
     return res.status(200).json(new_token);
   } catch (error) {
     console.log(error);
@@ -135,11 +125,6 @@ router.post("/confirm", async (req, res) => {
 
 router.get("/logout", async (req, res) => {
   try {
-    res.cookie("access token", "", {
-      secure: process.env.node === "production",
-      httpOnly: true,
-      sameSite: process.env.node === "production" ? "none" : "lax",
-    });
     return res.status(200).json();
   } catch (error) {
     console.log(error);
